@@ -14,19 +14,19 @@ class Contacto:
 def app():
     crear_directorio()
 
-#Muestra el menú de opciones:
-    mostrar_menu()
-
 #Preguntar al usuario la acción a realizar 
     preguntar = True
     while preguntar:
-        opcion = input('Seleccione una opción: \r\n')
-        opcion = int(opcion)
+        mostrar_menu()
+        try:
+            opcion = int(input('Seleccione una opción: \r\n'))
+        except ValueError:
+            print("Debes ingresar un número del menú")
+
 
 #Ejecutar las opciones
         if opcion == 1:
             agregar_contacto()
-            preguntar = False
         elif opcion == 2:
             editar_contacto()
             preguntar = False
@@ -39,8 +39,14 @@ def app():
         elif opcion == 5:
             eliminar_contacto()
             preguntar = False
+        elif opcion == 6:
+            cerrar_agenda()
+            preguntar = False
         else:
             print('Opción inválida, intente de nuevo')
+
+def cerrar_agenda():
+    print('Cerrando agenda de contactos...')
 
 def eliminar_contacto():
     nombre = input('Escriba el contacto que desea eliminar: \r\n')
@@ -58,10 +64,9 @@ def buscar_contacto():
 
     try:
         with open (CARPETA + nombre + EXTENSION) as contacto:
-            print ('\r\n Información del contacto: \r\n')
+            print ('Información del contacto: \r\n')
             for linea in contacto:
                 print(linea.rstrip())
-            print('\r\n')
     except IOError:
         print('El contacto no existe')
 
@@ -73,6 +78,8 @@ def mostrar_contactos():
 
     #Acá iría la consulta SQL en bases de datos
     archivos_txt = [i for i in archivos if i.endswith(EXTENSION)] #Sólo archivos terminados en TXT
+    if not archivos_txt:
+        print("No hay contactos guardados")
 
     for archivo in archivos_txt:
         with open(CARPETA + archivo) as contacto:
@@ -126,7 +133,6 @@ def agregar_contacto():
     existe = os.path.isfile(CARPETA + nombre_contacto + EXTENSION)
 
     if not existe:
-            
         with open (CARPETA + nombre_contacto + EXTENSION, 'w') as archivo:  
 
             #Resto de campos
@@ -155,6 +161,7 @@ def mostrar_menu():
     print('3) Ver contactos') #R
     print('4) Buscar contacto')
     print('5) Borrar contacto') #D
+    print('6) Salir de la agenda')
 
 def crear_directorio():
     if not os.path.exists(CARPETA): #Si la carpeta no existe, la crea
