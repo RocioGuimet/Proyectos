@@ -24,26 +24,23 @@ def app():
             print("Debes ingresar un número del menú")
 
 
-#Ejecutar las opciones
-        if opcion == 1:
-            agregar_contacto()
-        elif opcion == 2:
-            editar_contacto()
-            preguntar = False
-        elif opcion == 3:
-            mostrar_contactos()
-            preguntar = False
-        elif opcion == 4:
-            buscar_contacto()
-            preguntar = False
-        elif opcion == 5:
-            eliminar_contacto()
-            preguntar = False
-        elif opcion == 6:
-            cerrar_agenda()
-            preguntar = False
-        else:
-            print('Opción inválida, intente de nuevo')
+#Ejecutar las opciones (modifico elif/else por match/case)
+        match opcion:
+            case 1: 
+                agregar_contacto()
+            case 2:
+                editar_contacto()
+            case 3:
+                mostrar_contactos()
+            case 4:
+                buscar_contacto()
+            case 5:
+                eliminar_contacto()
+            case 6:
+                cerrar_agenda()
+                preguntar = False
+            case _:
+                print('Opción inválida, intente de nuevo')
 
 def cerrar_agenda():
     print('Cerrando agenda de contactos...')
